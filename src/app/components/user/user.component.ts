@@ -335,7 +335,7 @@ export class UserComponent implements OnInit {
    */
    openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
+      width: '100%',
       data: {name: 'ervis'}
     });
 
