@@ -1,0 +1,70 @@
+<div style="margin-left: 12.5%;" class="d-flex flex-column w-75 justify-content-center">
+    <div class="card rounded mt-4 p-2">
+        <div class="d-flex flex-column">
+            <div class="row">
+                <div class="col-6">
+                    <button mat-button (click)="openDialog()" class="m-3">Add User</button>
+                </div>
+                <div class="col-6 d-flex justify-content-end ">
+                    <mat-form-field class="w-50 mt-3" appearance="outline">
+                        <mat-label>Search</mat-label>
+                        <input matInput placeholder="Enter Keyword" name="username" ngModel #searchTable
+                            (keyup)="search()" type="text" class="float-right">
+                        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                        <!-- <mat-hint>Search</mat-hint> -->
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <table class="table" style="width: 90%;">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>E-mail</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of users; let i = index;">
+                            <td>{{user.id}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.createdAt}}</td>
+                            <td>{{user.updatedAt}}</td>
+                            <td>
+                                <div class="btn-group" appDropdown>
+                                    <button type="button" mat-raised-button color="primary" class="dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item">Update</a>
+                                        <a class="dropdown-item">Delete</a>
+                                        <!-- <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a> -->
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            Page:{{page +1}} &nbsp;&nbsp; Showing {{start}} to {{end}} of {{total}} &nbsp;
+
+            <button (click)="prevPage()" color="primary" mat-mini-fab aria-label="Example icon button with a home icon">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+
+            <button (click)="nextPage()" color="primary" mat-mini-fab aria-label="Example icon button with a home icon">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
