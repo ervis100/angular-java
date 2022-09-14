@@ -20,4 +20,9 @@ export class DialogComponent implements OnInit {
   onSubmit(f:NgForm) {
     console.log(f.value);
   }
+
+  
+  closeDialog() {
+    this.dialogRef.close('Pizza!');
+  }
 }
