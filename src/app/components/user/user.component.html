@@ -3,7 +3,7 @@
         <div class="d-flex flex-column">
             <div class="row">
                 <div class="col-6">
-                    <button mat-button (click)="openDialog()" class="m-3">Add User</button>
+                    <button mat-button (click)="openAddDialog()" class="m-3">Add User</button>
                 </div>
                 <div class="col-6 d-flex justify-content-end ">
                     <mat-form-field class="w-50 mt-3" appearance="outline">
@@ -13,6 +13,7 @@
                         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                         <!-- <mat-hint>Search</mat-hint> -->
                     </mat-form-field>
+                    <mat-icon class="mt-4 m-2">search</mat-icon>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -25,7 +26,7 @@
                             <th>E-mail</th>
                             <th>Created</th>
                             <th>Updated</th>
-                            <th>Options</th>
+                            <th><mat-icon>settings</mat-icon></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +44,7 @@
                                         Action
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item">Update</a>
+                                        <a class="dropdown-item" (click)="openEditDialog(i)">Update</a>
                                         <a class="dropdown-item">Delete</a>
                                         <!-- <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Separated link</a> -->
