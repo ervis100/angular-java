@@ -13,14 +13,14 @@ export class UsersService {
   usersChanged = new Subject<User[]>();
   private users: User[] = [];
 
-  // url = 'http://localhost:8000/user';
-  url = 'https://jsonplaceholder.typicode.com/users';
+  url = 'http://localhost:8080/api/user';
+
   storeUser(user: User) {
     this.http.post<User[]>(this.url, user)
   }
 
   fetchUsers() {
-    return this.http.get<User[]>('https://jsonplaceholder.typicode.com/users')
+    return this.http.get<any>('http://localhost:8080/api/user')
   }
 
 }

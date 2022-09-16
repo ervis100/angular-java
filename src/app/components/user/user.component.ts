@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs';
 import { User } from 'src/app/general/User';
 import { UsersService } from 'src/app/services/users.service';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -26,9 +27,39 @@ export class UserComponent implements OnInit {
   total;
 
   ngOnInit(): void {
-    this.userService.fetchUsers().subscribe(
+    this.userService.fetchUsers()
+    .pipe( map( result =>{
+      return result.content.map(user =>{
+        return new User(
+          user.id , 
+          user.name ,
+          user.username,
+          user.email,
+          user.roles[0].name,
+          new Date(
+            user.createdAt[0],
+            user.createdAt[1],
+            user.createdAt[2],
+            user.createdAt[3],
+            user.createdAt[4],
+            user.createdAt[5]
+            ),
+          new Date(  
+            user.createdAt[0],
+            user.createdAt[1],
+            user.createdAt[2],
+            user.createdAt[3],
+            user.createdAt[4],
+            user.createdAt[5]
+            )
+          )
+      })
+    })
+    )
+    .subscribe(
        (result) => {
-        this.users = result;
+        console.log(result)
+        this.users = result        
       }
     )
   }
@@ -96,7 +127,7 @@ export class UserComponent implements OnInit {
   
   openEditDialog(index:number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '100%',
+      width: '50%',
       data: { user: this.users[index] }
    });
 
@@ -113,4 +144,5 @@ export class UserComponent implements OnInit {
       }
     });
   }
+
 }

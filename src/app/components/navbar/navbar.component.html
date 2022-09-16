@@ -1,7 +1,8 @@
 <nav>
-    <div><mat-icon>manage_accounts</mat-icon> <a>Manage</a></div>
+    <div><mat-icon>manage_accounts</mat-icon> <a [routerLink]="['/']">Manage</a></div>
     <div>
-        <a [routerLink]="['users']">Users</a>
-        <a>LogOut</a>
+        <a *ngIf="isAuth" [routerLink]="['users']">Users</a>
+        <a *ngIf="isAuth" (click)="logout()">LogOut</a>
+        <a *ngIf="!isAuth">Log In</a>
     </div>
 </nav>
