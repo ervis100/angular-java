@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { User } from 'src/app/general/User';
 import { UsersService } from 'src/app/services/users.service';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -17,7 +17,6 @@ export class UserComponent implements OnInit {
 
   @ViewChild('searchTable') searchParam: ElementRef
 
-  updating = false;
   users:User[];
   page = 0;
   pageCount = 10;
@@ -28,7 +27,13 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.fetchUsers()
-    .pipe( map( result =>{
+    .pipe(
+      tap(result => {
+     this.page = result.pageNo;
+     this.pageCount = result.pageSize;
+     this.total = result.totalElements;
+
+    }),map( result =>{
       return result.content.map(user =>{
         return new User(
           user.id , 
