@@ -17,6 +17,7 @@ import { DropdownDirective } from './dropdown.directive';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthInterceptorService } from './general/interceptors/auth-interceptor.service';
+import { ClientComponent } from './components/client/client.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { AuthInterceptorService } from './general/interceptors/auth-interceptor.
     DropdownDirective,
     DialogComponent,
     NavbarComponent,
+    ClientComponent,
   ],
   imports: [
     BrowserModule,

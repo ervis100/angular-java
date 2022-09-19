@@ -25,7 +25,6 @@
                             <th>Username</th>
                             <th>E-mail</th>
                             <th>Created</th>
-                            <th>Updated</th>
                             <th><mat-icon>settings</mat-icon></th>
                         </tr>
                     </thead>
@@ -36,7 +35,6 @@
                             <td>{{user.username}}</td>
                             <td>{{user.email}}</td>
                             <td>{{user.createdAt}}</td>
-                            <td>{{user.updatedAt}}</td>
                             <td>
                                 <div class="btn-group" appDropdown>
                                     <button type="button" mat-raised-button color="primary" class="dropdown-toggle"
@@ -44,7 +42,7 @@
                                         Action
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" (click)="openEditDialog(i)">Update</a>
+                                        <a class="dropdown-item" (click)="openEditDialog(i , user.id)">Update</a>
                                         <a class="dropdown-item">Delete</a>
                                         <!-- <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Separated link</a> -->

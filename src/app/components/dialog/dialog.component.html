@@ -32,6 +32,14 @@
                     <!-- <mat-hint>Hint</mat-hint> -->
                 </mat-form-field>
             </div>
+            <div *ngIf="!edit" class="d-flex justify-content-center">
+                <mat-form-field class="w-75" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Enter new password" name="password" formControlName="password">
+                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                    <!-- <mat-hint>Hint</mat-hint> -->
+                </mat-form-field>
+            </div>
             <div class="row justify-content-end" style="padding-right: 15%;">
                 <div class="col-1 m-1">
                     <button type="reset" mat-raised-button> Clear </button>

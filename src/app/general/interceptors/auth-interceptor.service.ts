@@ -13,9 +13,7 @@ export class AuthInterceptorService implements HttpInterceptor{
             exhaustMap(auth => {
                 if(!auth){
                     return next.handle(req);
-                }               
-                console.log(req.headers.append('Authorization' , 'Bearer '+auth.token))
-                
+                }                               
                 const modRequest = req.clone({
                     headers : req.headers.set('Authorization' , 'Bearer '+auth.token)
                 })

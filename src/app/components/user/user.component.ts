@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map, tap } from 'rxjs';
 import { User } from 'src/app/general/User';
 import { UsersService } from 'src/app/services/users.service';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -13,60 +11,67 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class UserComponent implements OnInit {
 
-  constructor( private userService:UsersService, private elRef:ElementRef, private dialog: MatDialog ) { }
+  constructor(private userService: UsersService, private elRef: ElementRef, private dialog: MatDialog) { }
 
   @ViewChild('searchTable') searchParam: ElementRef
 
-  users:User[];
+  users: User[];
   page = 0;
-  pageCount = 10;
+  pageCount = 5;
   start = 0;
   end;
   keyWord = '';
   total;
 
   ngOnInit(): void {
-    this.userService.fetchUsers()
-    .pipe(
-      tap(result => {
-     this.page = result.pageNo;
-     this.pageCount = result.pageSize;
-     this.total = result.totalElements;
-
-    }),map( result =>{
-      return result.content.map(user =>{
-        return new User(
-          user.id , 
-          user.name ,
-          user.username,
-          user.email,
-          user.roles[0].name,
-          new Date(
-            user.createdAt[0],
-            user.createdAt[1],
-            user.createdAt[2],
-            user.createdAt[3],
-            user.createdAt[4],
-            user.createdAt[5]
-            ),
-          new Date(  
-            user.createdAt[0],
-            user.createdAt[1],
-            user.createdAt[2],
-            user.createdAt[3],
-            user.createdAt[4],
-            user.createdAt[5]
-            )
-          )
-      })
-    })
-    )
-    .subscribe(
-       (result) => {
-        console.log(result)
-        this.users = result        
+    this.userService.fetchUsers(this.page , this.pageCount)
+      .subscribe(
+        result => {
+          this.dataFetch(result)
+        }
+      );
+    this.userService.usersChanged.subscribe(
+      users => {
+        this.users = users
       }
     )
+  }
+
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '100%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.userService.storeUser(result.user).subscribe(() => {
+        this.userService.fetchUsers(this.page , this.pageCount).subscribe(
+          result => {
+            this.dataFetch(result)
+          }
+        )
+      });
+    })
+  }
+
+
+  openEditDialog(index: number , id:number): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '50%',
+      data: { user: this.users[index] }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        console.log(result)
+        this.userService.updateUser(id , result.user).subscribe(
+          (result) => {
+            this.userService.fetchUsers(this.page , this.pageCount).subscribe(result=>{
+              this.dataFetch(result)
+            })
+          }
+        )
+      }
+    });
   }
 
   /**
@@ -83,71 +88,34 @@ export class UserComponent implements OnInit {
       console.log(Math.floor(this.total / this.pageCount))
       this.page++;
     }
-  }
-
+    this.userService.fetchUsers(this.page , this.pageCount).subscribe(
+      result => {
+        this.dataFetch(result)
+      }
+    );
+  } 
   prevPage() {
     if (this.page != 0) {
       this.page--;
     }
+    this.userService.fetchUsers(this.page , this.pageCount).subscribe(
+      result => {
+        this.dataFetch(result)
+      }
+    );
   }
 
   search() {
     this.keyWord = this.searchParam.nativeElement.value;
-    this.page = 0;
+    console.log(this.keyWord);
   }
 
-  // fetchUsers() {
-  //   const data = {
-  //     page: this.page,
-  //     count: this.pageCount,
-  //     keyWord: this.keyWord
-  //   }
-  //   this.http.get<any>('http://localhost:8080/api/users', { params: data }
-  //   ).subscribe(resData => {
-  //       this.users = resData.users;
-  //       this.total = resData.total;
-  //       this.calculateLimits();
-  //     })
-  // }
-
-  calculateLimits() {
-    this.start = this.page * this.pageCount;
+  dataFetch(result) {
+    this.userService.usersChanged.next(result.users);
+    this.total = result.totalElements;
+    this.page = result.pageNo;
+    this.pageCount = result.pageSize;
+    this.start = result.pageNo * result.pageSize;
     this.end = this.total < this.page * this.pageCount + this.pageCount ? this.total : this.page * this.pageCount + this.pageCount;
   }
-
-
-  /**
-   * Modal functions
-   */
-   openAddDialog(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '100%',
-   });
-
-    dialogRef.afterClosed().subscribe(result => {
-      //this.animal = result;
-      console.log(result)
-    });
-  }
-  
-  openEditDialog(index:number): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '50%',
-      data: { user: this.users[index] }
-   });
-
-   /**
-    * store or edit user
-    */
-    dialogRef.afterClosed().subscribe(result => {
-      if(result!==undefined) {
-        if(result.edit) {
-
-        } else {
-          this.userService.storeUser(result.user)
-        }
-      }
-    });
-  }
-
 }

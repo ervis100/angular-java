@@ -3,6 +3,6 @@
     <div>
         <a *ngIf="isAuth" [routerLink]="['users']">Users</a>
         <a *ngIf="isAuth" (click)="logout()">LogOut</a>
-        <a *ngIf="!isAuth">Log In</a>
+        <a *ngIf="!isAuth" [routerLink]="['/login']">Log In</a>
     </div>
 </nav>

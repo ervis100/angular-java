@@ -30,6 +30,9 @@ export class DialogComponent implements OnInit {
         Validators.email
       ]), 
     })
+    if(!this.edit) {
+      this.userForm.addControl('password' , new FormControl('' , Validators.required));
+    }
   }
 
   /** 
