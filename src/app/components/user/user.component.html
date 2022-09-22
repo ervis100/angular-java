@@ -3,17 +3,15 @@
         <div class="d-flex flex-column">
             <div class="row">
                 <div class="col-6">
-                    <button mat-button (click)="openAddDialog()" class="m-3">Add User</button>
+                    <button mat-raised-button (click)="openAddDialog()" class="m-3">Add User</button>
                 </div>
                 <div class="col-6 d-flex justify-content-end ">
                     <mat-form-field class="w-50 mt-3" appearance="outline">
                         <mat-label>Search</mat-label>
                         <input matInput placeholder="Enter Keyword" name="username" ngModel #searchTable
                             (keyup)="search()" type="text" class="float-right">
-                        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                        <!-- <mat-hint>Search</mat-hint> -->
                     </mat-form-field>
-                    <mat-icon class="mt-4 m-2">search</mat-icon>
+                    <button class="m-3" mat-fab color="warn"><mat-icon>search</mat-icon></button> 
                 </div>
             </div>
             <div class="row justify-content-center">

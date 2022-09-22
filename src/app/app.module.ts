@@ -18,6 +18,10 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthInterceptorService } from './general/interceptors/auth-interceptor.service';
 import { ClientComponent } from './components/client/client.component';
+import { EditClientComponent } from './components/edit-client/edit-client.component';
+import { OrderReportComponent } from './components/order-report/order-report.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { NewOrderComponent } from './components/new-order/new-order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +33,10 @@ import { ClientComponent } from './components/client/client.component';
     DialogComponent,
     NavbarComponent,
     ClientComponent,
+    EditClientComponent,
+    OrderReportComponent,
+    OrderDetailsComponent,
+    NewOrderComponent,
   ],
   imports: [
     BrowserModule,

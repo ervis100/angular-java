@@ -24,10 +24,18 @@ export class UserComponent implements OnInit {
   total;
 
   ngOnInit(): void {
-    this.userService.fetchUsers(this.page , this.pageCount)
+    this.userService.fetchUsers(this.page, this.pageCount)
       .subscribe(
         result => {
-          this.dataFetch(result)
+          this.userService.usersChanged.next(result.users)
+
+          this.userService.paramsChanged.subscribe(
+            result => {
+              this.newParams(result)
+            }
+          )
+
+          this.userService.paramsChanged.next(result)
         }
       );
     this.userService.usersChanged.subscribe(
@@ -43,18 +51,26 @@ export class UserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.userService.storeUser(result.user).subscribe(() => {
-        this.userService.fetchUsers(this.page , this.pageCount).subscribe(
-          result => {
-            this.dataFetch(result)
-          }
-        )
-      });
+      if (result !== undefined) {
+        this.userService.storeUser(result.user).subscribe(() => {
+          this.userService.fetchUsers(this.page, this.pageCount).subscribe(
+            result => {
+              this.userService.usersChanged.next(result.users)
+              this.userService.paramsChanged.subscribe(
+                params => {
+                  this.newParams(params)
+                }
+              )
+              //this.dataFetch(result)
+            }
+          )
+        });
+      }
     })
   }
 
 
-  openEditDialog(index: number , id:number): void {
+  openEditDialog(index: number, id: number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '50%',
       data: { user: this.users[index] }
@@ -62,11 +78,16 @@ export class UserComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        console.log(result)
-        this.userService.updateUser(id , result.user).subscribe(
+        this.userService.updateUser(id, result.user).subscribe(
           (result) => {
-            this.userService.fetchUsers(this.page , this.pageCount).subscribe(result=>{
-              this.dataFetch(result)
+            this.userService.fetchUsers(this.page, this.pageCount).subscribe(result => {
+              this.userService.usersChanged.next(result.users)
+              this.userService.paramsChanged.subscribe(
+                params => {
+                  this.newParams(params)
+                }
+              )
+              //this.dataFetch(result)
             })
           }
         )
@@ -88,19 +109,23 @@ export class UserComponent implements OnInit {
       console.log(Math.floor(this.total / this.pageCount))
       this.page++;
     }
-    this.userService.fetchUsers(this.page , this.pageCount).subscribe(
+    this.userService.fetchUsers(this.page, this.pageCount).subscribe(
       result => {
-        this.dataFetch(result)
+        this.userService.usersChanged.next(result.users)
+        this.newParams(result)
+        // this.dataFetch(result)
       }
     );
-  } 
+  }
   prevPage() {
     if (this.page != 0) {
       this.page--;
     }
-    this.userService.fetchUsers(this.page , this.pageCount).subscribe(
+    this.userService.fetchUsers(this.page, this.pageCount).subscribe(
       result => {
-        this.dataFetch(result)
+        this.userService.usersChanged.next(result.users)
+        this.newParams(result)
+        //this.dataFetch(result)
       }
     );
   }
@@ -110,8 +135,7 @@ export class UserComponent implements OnInit {
     console.log(this.keyWord);
   }
 
-  dataFetch(result) {
-    this.userService.usersChanged.next(result.users);
+  newParams(result) {
     this.total = result.totalElements;
     this.page = result.pageNo;
     this.pageCount = result.pageSize;

@@ -9,36 +9,56 @@
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="mt-5">
             <div class="d-flex justify-content-center">
-                <mat-form-field class="w-75" appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input matInput placeholder="Enter new name" name="name" formControlName="name">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <!-- <mat-hint>Name is required</mat-hint> -->
-                </mat-form-field>
+                <div *ngIf="backendErrors.length!==0" class="alert alert-danger col-10">
+                    <p *ngFor="let error of backendErrors">
+                        {{error}}
+                    </p>
+                </div>
             </div>
             <div class="d-flex justify-content-center">
-                <mat-form-field class="w-75" appearance="outline">
-                    <mat-label>Username</mat-label>
-                    <input matInput placeholder="Enter new username" name="username" formControlName="username">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <!-- <mat-hint>Hint</mat-hint> -->
-                </mat-form-field>
+                <div class="col-10">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Enter new name" name="name" formControlName="name">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        <!-- <mat-hint>Name is required</mat-hint> -->
+                    </mat-form-field>
+                    <span *ngIf="showErrors('name')" class="invalid-val">{{nameError}}</span>
+                </div>
             </div>
             <div class="d-flex justify-content-center">
-                <mat-form-field class="w-75" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="Enter new email" name="email" formControlName="email">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <!-- <mat-hint>Hint</mat-hint> -->
-                </mat-form-field>
+                <div class="col-10">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Enter new username" name="username" formControlName="username">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        <!-- <mat-hint>Hint</mat-hint> -->
+                    </mat-form-field>
+                    <span class="invalid-val" *ngIf="showErrors('username')">{{usernameError}}</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-10">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Enter new email" name="email" formControlName="email">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        <!-- <mat-hint>Hint</mat-hint> -->
+                    </mat-form-field>
+                    <span class="invalid-val" *ngIf="showErrors('email')">{{emailError}}</span>
+                </div>
             </div>
             <div *ngIf="!edit" class="d-flex justify-content-center">
-                <mat-form-field class="w-75" appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="Enter new password" name="password" formControlName="password">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <!-- <mat-hint>Hint</mat-hint> -->
-                </mat-form-field>
+                <div class="col-10">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
+                            formControlName="password" required>
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <!-- <mat-hint *ngIf="!passwordInput.value">Enter your password</mat-hint> -->
+                    </mat-form-field>
+                    <span class="invalid-val" *ngIf="showErrors('password')">{{passwordError}}</span>
+                </div>
             </div>
             <div class="row justify-content-end" style="padding-right: 15%;">
                 <div class="col-1 m-1">

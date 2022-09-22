@@ -1,8 +1,9 @@
 <nav>
     <div><mat-icon>manage_accounts</mat-icon> <a [routerLink]="['/']">Manage</a></div>
     <div>
+        <a *ngIf="isAuth" [routerLink]="['clients']">Clients</a>
         <a *ngIf="isAuth" [routerLink]="['users']">Users</a>
-        <a *ngIf="isAuth" (click)="logout()">LogOut</a>
-        <a *ngIf="!isAuth" [routerLink]="['/login']">Log In</a>
+        <a *ngIf="isAuth"  mat-raised-button color="warn"  (click)="logout()">LogOut</a>
+        <a *ngIf="!isAuth"  mat-raised-button color="warn"  [routerLink]="['/login']">Log In</a>
     </div>
 </nav>

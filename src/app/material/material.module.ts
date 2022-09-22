@@ -9,6 +9,11 @@ import { MatInputModule} from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatCardModule} from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -22,7 +27,12 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatInputModule,
     MatDialogModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -34,7 +44,12 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatInputModule,
     MatDialogModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule { }

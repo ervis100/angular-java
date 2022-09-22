@@ -5,3 +5,7 @@ th ,td {
     background-color: rgb(103,58,183);
     color: white;
 }
+
+.justify-content-center {
+    margin-bottom: 5%;
+}

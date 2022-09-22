@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject , BehaviorSubject } from 'rxjs';
 import { User } from '../general/User';
-import { tap,map } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,12 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   usersChanged = new Subject<User[]>();
+  paramsChanged = new BehaviorSubject<{
+    'pageNo':number,
+    'pageSize':number,
+    'totalElements': number,
+    'totalPages': number
+  }>(null);
 
   url = 'http://localhost:8080/api/user';
 

@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center m-4">
+    <div class="col-8">
+        <form [formGroup]="newOrderForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-10">
+                    <div>
+                        <mat-form-field class="w-100" appearance="fill" appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <input type="text" matInput formControlName="address" [errorStateMatcher]=""
+                                placeholder="Enter order address">
+                            <mat-hint></mat-hint>
+                            <mat-error *ngIf="!newOrderForm.get('address').hasError('required')">
+                                Please enter the address
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div formArrayName="orderDetails" class="row justify-content-around">
+                        <div *ngFor="let ctrl of controls;let i = index" class="row" [formGroupName]="i">
+
+                            <div class="col-6">
+                                <mat-form-field appearance="fill" appearance="fill">
+                                    <mat-label>Product</mat-label>
+                                    <mat-select formControlName="productId">
+                                        <mat-option *ngFor="let product of products" 
+                                            [value]="product.id">
+                                            {{product.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-form-field class="w-100" appearance="fill" appearance="outline">
+                                    <mat-label>Quantity</mat-label>
+                                    <input type="text" matInput formControlName="quantity" [errorStateMatcher]=""
+                                        placeholder="Enter quantity">
+                                    <mat-hint></mat-hint>
+                                    <!-- <mat-error *ngIf="!newOrderForm.get('quantity').hasError('required')">
+                                        Please enter the quantity
+                                    </mat-error> -->
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-2">
+                                <button mat-raised-button type="button" (click)="deleteControl(i)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button (click)="addProduct()" type="button">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button mat-raised-button color="primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
